@@ -1,17 +1,22 @@
 package com.aditya;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import com.aditya.manager.RateLimiterManager;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+public class Main {
+  public static void main(String[] args) {
+    //    RateLimiterManager rateLimiterManager = RateLimiterManager.getInstance("fixed_window", 10,
+    // 60000);
+    RateLimiterManager rateLimiterManager =
+        RateLimiterManager.getInstance("sliding_window", 10, 60000);
+
+    System.out.println("Fixed Window Rate Limiter:");
+    for (int i = 0; i < 12; i++) {
+      System.out.println(rateLimiterManager.allowRequest("user1"));
     }
+
+    System.out.println("Sliding Window Rate Limiter:");
+    for (int i = 0; i < 15; i++) {
+      System.out.println(rateLimiterManager.allowRequest("user1"));
+    }
+  }
 }
